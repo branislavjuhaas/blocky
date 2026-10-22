@@ -7,7 +7,9 @@ Aktuálna verzia: **2.1.0** (verzujeme podľa [Semantic Versioning](https://semv
 ## Autori
 
 - Adam Mistrík
-- _doplňte mená ďalších členov tímu_
+- Branislav Juhás
+- Šimon Štefánik
+- Tetiana Tkachenko
 
 ## Požiadavky
 
