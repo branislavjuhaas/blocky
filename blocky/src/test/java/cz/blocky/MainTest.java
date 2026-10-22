@@ -39,7 +39,9 @@ class MainTest {
 
     @Test
     void printsAndSavesReceipt() throws IOException {
-        Files.writeString(dir.resolve("store.properties"), "store.name=Trafika U Testu\noutput.dir=bloky\n");
+        Files.writeString(dir.resolve("store.json"), """
+                {"store": {"name": "Trafika U Testu"}, "outputDir": "bloky"}
+                """);
 
         int code = run("Noviny\n2\n35\n\n100\n");
 
@@ -56,8 +58,8 @@ class MainTest {
 
     @Test
     void usesConfigFileFromArgument() throws IOException {
-        Files.writeString(dir.resolve("jiny.properties"), "store.name=Jiný obchod\n");
-        assertEquals(0, run("A\n1\n1\n\n\n", "jiny.properties"));
+        Files.writeString(dir.resolve("jiny.json"), "{\"store\": {\"name\": \"Jiný obchod\"}}", StandardCharsets.UTF_8);
+        assertEquals(0, run("A\n1\n1\n\n\n", "jiny.json"));
         assertTrue(out().contains("Jiný obchod"));
     }
 
@@ -78,7 +80,7 @@ class MainTest {
 
     @Test
     void reportsMissingConfigFile() {
-        assertEquals(1, run("", "neexistuje.properties"));
+        assertEquals(1, run("", "neexistuje.json"));
         assertTrue(err.toString(StandardCharsets.UTF_8).contains("Konfigurační soubor nenalezen"));
     }
 

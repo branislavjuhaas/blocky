@@ -2,7 +2,7 @@
 
 **Blocky** je jednoduchý nástroj pro příkazovou řádku, který vytiskne účtenku, jakou dostanete v samoobsluze, supermarketu nebo trafice. Účtenku vypíše do konzole a zároveň ji uloží do textového souboru. Cestu k souboru vypíše na konec.
 
-Aktuální verze: **1.0.0** (verzujeme podle [Semantic Versioning](https://semver.org/lang/cs/)).
+Aktuální verze: **2.0.0** (verzujeme podle [Semantic Versioning](https://semver.org/lang/cs/)).
 
 ## Autoři
 
@@ -21,16 +21,16 @@ cd blocky
 mvn package
 ```
 
-Maven přeloží kód, spustí unit testy a vytvoří spustitelný soubor `blocky/target/blocky-1.0.0.jar`.
+Maven přeloží kód, spustí unit testy a vytvoří spustitelný soubor `blocky/target/blocky-2.0.0.jar`.
 
 ## Spuštění (bez vývojového prostředí)
 
 ```bash
 cd blocky
-java -jar target/blocky-1.0.0.jar                      # použije ./store.properties
-java -jar target/blocky-1.0.0.jar jiny-obchod.properties
-java -jar target/blocky-1.0.0.jar --version
-java -jar target/blocky-1.0.0.jar --help
+java -jar target/blocky-2.0.0.jar                      # použije ./store.json
+java -jar target/blocky-2.0.0.jar jiny-obchod.json
+java -jar target/blocky-2.0.0.jar --version
+java -jar target/blocky-2.0.0.jar --help
 ```
 
 Program se postupně ptá na položky nákupu:
@@ -77,29 +77,52 @@ Základ DPH 21 %                 68,00 Kč
 DPH 21 %                        14,28 Kč
 ========================================
  Děkujeme za nákup a těšíme se na Vás!
-             Blocky v1.0.0
+             Blocky v2.0.0
 
 Účtenka byla uložena do souboru: /…/blocky/uctenky/uctenka-20261022-180538.txt
 ```
 
 ## Konfigurace obchodu
 
-Údaje, které se na účtence opakují, jsou v souboru `blocky/store.properties` (UTF-8):
+Údaje, které se na účtence opakují, jsou v souboru `blocky/store.json` (JSON, UTF-8):
 
-| Klíč               | Význam                                   | Výchozí hodnota |
-|--------------------|------------------------------------------|-----------------|
-| `store.name`       | název obchodu (**povinné**)              |                 |
-| `store.address`    | adresa                                   | prázdné         |
-| `store.ico`        | IČO                                      | prázdné         |
-| `store.dic`        | DIČ                                      | prázdné         |
-| `store.phone`      | telefon                                  | prázdné         |
-| `receipt.footer`   | text v patičce                           | prázdné         |
-| `receipt.currency` | měna                                     | `Kč`            |
-| `receipt.width`    | šířka účtenky ve znacích (min. 30)       | `40`            |
-| `vat.rate`         | sazba DPH v %, ceny se zadávají s DPH    | `21`            |
-| `output.dir`       | složka, kam se ukládají účtenky          | `uctenky`       |
+```json
+{
+  "store": {
+    "name": "Potraviny Blocky",
+    "address": "Hlavní 123, 110 00 Praha 1",
+    "ico": "12345678",
+    "dic": "CZ12345678",
+    "phone": "+420 123 456 789"
+  },
+  "receipt": {
+    "footer": "Děkujeme za nákup a těšíme se na Vás!",
+    "currency": "Kč",
+    "width": 40
+  },
+  "vatRate": 21,
+  "outputDir": "uctenky"
+}
+```
 
-Pokud ve složce, odkud program spouštíte, žádný `store.properties` není, použije se výchozí konfigurace přibalená v JAR souboru.
+| Klíč               | Typ    | Význam                                | Výchozí hodnota |
+|--------------------|--------|---------------------------------------|-----------------|
+| `store.name`       | text   | název obchodu (**povinné**)           |                 |
+| `store.address`    | text   | adresa                                | prázdné         |
+| `store.ico`        | text   | IČO                                   | prázdné         |
+| `store.dic`        | text   | DIČ                                   | prázdné         |
+| `store.phone`      | text   | telefon                               | prázdné         |
+| `receipt.footer`   | text   | text v patičce                        | prázdné         |
+| `receipt.currency` | text   | měna                                  | `Kč`            |
+| `receipt.width`    | číslo  | šířka účtenky ve znacích (min. 30)    | `40`            |
+| `vatRate`          | číslo  | sazba DPH v %, ceny se zadávají s DPH | `21`            |
+| `outputDir`        | text   | složka, kam se ukládají účtenky       | `uctenky`       |
+
+Nepovinné klíče lze vynechat. JSON se čte striktně: překlep (chybějící uvozovky, čárka navíc) nebo špatný typ hodnoty program ohlásí a skončí.
+
+Pokud ve složce, odkud program spouštíte, žádný `store.json` není, použije se výchozí konfigurace přibalená v JAR souboru.
+
+JSON čte knihovna [Gson](https://github.com/google/gson). Maven ji při `package` zabalí přímo do JAR (maven-shade-plugin), takže pro spuštění stačí jen Java.
 
 ## Testy
 
@@ -114,26 +137,26 @@ Unit testy (JUnit 5) pokrývají načítání konfigurace, výpočty cen a DPH, 
 
 1. Udělejte změny v kódu a doplňte k nim testy.
 2. Zvyšte verzi v `blocky/pom.xml` (`<version>`) podle sémantického verzování:
-   - **PATCH** (`1.0.0` → `1.0.1`): oprava chyby,
-   - **MINOR** (`1.0.0` → `1.1.0`): nová funkce, která nic nerozbije,
-   - **MAJOR** (`1.0.0` → `2.0.0`): nekompatibilní změna (např. formát konfigurace).
+   - **PATCH** (`2.0.0` → `2.0.1`): oprava chyby,
+   - **MINOR** (`2.0.0` → `2.1.0`): nová funkce, která nic nerozbije,
+   - **MAJOR** (`1.0.0` → `2.0.0`): nekompatibilní změna (např. přechod konfigurace z `.properties` na JSON ve verzi 2.0.0).
 
    Verze se automaticky propíše do programu (`--version`) i do patičky účtenky.
 3. Sestavte a otestujte: `mvn clean package`.
 4. Commitněte, označte verzi tagem a pushněte:
    ```bash
-   git commit -am "Release 1.1.0"
-   git tag v1.1.0
+   git commit -am "Release 2.1.0"
+   git tag v2.1.0
    git push && git push --tags
    ```
-5. Volitelně nahrajte `target/blocky-1.1.0.jar` na GitHub jako release.
+5. Volitelně nahrajte `target/blocky-2.1.0.jar` na GitHub jako release.
 
 ## Struktura projektu
 
 ```
 blocky/
 ├── pom.xml
-├── store.properties                  konfigurace obchodu
+├── store.json                        konfigurace obchodu
 └── src/
     ├── main/java/cz/blocky/
     │   ├── Main.java                 vstupní bod, spojuje vše dohromady

@@ -18,7 +18,7 @@ import java.util.List;
  * Vstupní bod programu Blocky.
  *
  * <pre>
- * java -jar blocky-1.0.0.jar [cesta/ke/store.properties]
+ * java -jar blocky-1.0.0.jar [cesta/ke/store.json]
  * </pre>
  */
 public final class Main {
@@ -110,9 +110,9 @@ public final class Main {
 
     private static void printHelp(AppInfo app, PrintStream out) {
         out.println(app);
-        out.println("Použití: java -jar blocky.jar [konfigurace.properties]");
+        out.println("Použití: java -jar blocky.jar [konfigurace.json]");
         out.println();
-        out.println("  Bez argumentu se použije ./store.properties, případně výchozí konfigurace v JAR.");
+        out.println("  Bez argumentu se použije ./store.json, případně výchozí konfigurace v JAR.");
         out.println("  -v, --version   vypíše verzi");
         out.println("  -h, --help      vypíše tuto nápovědu");
     }
