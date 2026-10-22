@@ -13,12 +13,47 @@ Aktuálna verzia: **2.1.0** (verzujeme podľa [Semantic Versioning](https://semv
 
 ## Spustenie (bez vývojového prostredia)
 
+Potrebujete **Javu 25** alebo novšiu. Verziu zistíte príkazom `java -version`.
+
+Hotový JAR je v repozitári v súbore `blocky/src/out/artifacts/blocky/blocky.jar`. Blocky je program pre príkazový riadok, preto ho **spúšťajte z terminálu**. Po dvojkliku na JAR sa spustí bez okna a nebude to vyzerať, že sa niečo deje.
+
+1. Otvorte terminál (macOS: *Terminal*, Windows: *Príkazový riadok* alebo *PowerShell*).
+2. Prejdite do priečinka s JAR súborom:
+
+   ```bash
+   cd cesta/k/repozitaru/blocky/src/out/artifacts/blocky
+   ```
+
+3. Spustite program:
+
+   ```bash
+   java -jar blocky.jar                     # použije ./store.json alebo konfiguráciu pribalenú v JAR
+   java -jar blocky.jar iny-obchod.json     # vlastný konfiguračný súbor
+   java -jar blocky.jar --version
+   java -jar blocky.jar --help
+   ```
+
+Účtenky sa uložia do priečinka `uctenky/` v priečinku, z ktorého program spúšťate.
+
+### Časté problémy
+
+- **`UnsupportedClassVersionError`**: spúšťate program so staršou Javou. Nainštalujte Javu 25 (napr. [Temurin](https://adoptium.net/)). Ak máte nainštalovaných viac verzií, na macOS môžete Javu 25 zvoliť priamo:
+
+  ```bash
+  "$(/usr/libexec/java_home -v 25)/bin/java" -jar blocky.jar
+  ```
+
+- **`Unable to access jarfile blocky.jar`**: nie ste v priečinku s JAR súborom (pozri krok 2).
+- **`java: command not found`**: Java nie je nainštalovaná alebo nie je v `PATH`.
+
+### Zostavenie JAR zo zdrojových kódov
+
+Potrebujete Javu 25 a [Maven](https://maven.apache.org/):
+
 ```bash
 cd blocky
-java -jar target/blocky-2.1.0.jar                      # použije ./store.json
-java -jar target/blocky-2.1.0.jar iny-obchod.json
-java -jar target/blocky-2.1.0.jar --version
-java -jar target/blocky-2.1.0.jar --help
+mvn package                      # spustí aj testy
+java -jar target/blocky-2.1.0.jar
 ```
 
 ## Program sa postupne pýta na položky nákupu:
