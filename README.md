@@ -11,20 +11,6 @@ Aktuálna verzia: **2.1.0** (verzujeme podľa [Semantic Versioning](https://semv
 - Šimon Štefánik
 - Tetiana Tkachenko
 
-## Požiadavky
-
-- Java 25 (JDK)
-- Maven 3.9+ (alebo Maven pribalený v IntelliJ IDEA)
-
-## Zostavenie
-
-```bash
-cd blocky
-mvn package
-```
-
-Maven preloží kód, spustí unit testy a vytvorí spustiteľný súbor `blocky/target/blocky-2.1.0.jar`.
-
 ## Spustenie (bez vývojového prostredia)
 
 ```bash
@@ -35,7 +21,7 @@ java -jar target/blocky-2.1.0.jar --version
 java -jar target/blocky-2.1.0.jar --help
 ```
 
-Program sa postupne pýta na položky nákupu:
+## Program sa postupne pýta na položky nákupu:
 
 ```
 Názov položky 1: Rožok
@@ -124,7 +110,7 @@ Nepovinné kľúče sa dajú vynechať. JSON sa číta striktne: preklep (chýba
 
 Ak v priečinku, z ktorého program spúšťate, nie je žiadny `store.json`, použije sa predvolená konfigurácia pribalená v JAR súbore.
 
-JSON číta knižnica [Gson](https://github.com/google/gson). Maven ju pri `package` zabalí priamo do JAR (maven-shade-plugin), takže na spustenie stačí len Java.
+JSON číta knižnica Gson. Maven ju pri `package` zabalí priamo do JAR (maven-shade-plugin), takže na spustenie stačí len Java.
 
 ## Testy
 
@@ -134,42 +120,3 @@ mvn test
 ```
 
 Unit testy (JUnit 5) pokrývajú načítanie konfigurácie, výpočty cien a DPH, formátovanie čísel a účtenky, zadávanie od používateľa, ukladanie do súboru aj celý beh programu.
-
-## Ako vydať ďalšiu verziu
-
-1. Urobte zmeny v kóde a doplňte k nim testy.
-2. Zvýšte verziu v `blocky/pom.xml` (`<version>`) podľa sémantického verzovania:
-   - **PATCH** (`2.1.0` → `2.1.1`): oprava chyby,
-   - **MINOR** (`2.1.0` → `2.2.0`): nová funkcia, ktorá nič nerozbije (napr. preklad do slovenčiny vo verzii 2.1.0),
-   - **MAJOR** (`2.1.0` → `3.0.0`): nekompatibilná zmena (napr. prechod konfigurácie z `.properties` na JSON vo verzii 2.0.0).
-
-   Verzia sa automaticky prepíše do programu (`--version`) aj do päty účtenky.
-3. Zostavte a otestujte: `mvn clean package`.
-4. Commitnite, označte verziu tagom a pushnite:
-   ```bash
-   git commit -am "Release 2.2.0"
-   git tag v2.2.0
-   git push && git push --tags
-   ```
-5. Voliteľne nahrajte `target/blocky-2.2.0.jar` na GitHub ako release.
-
-## Štruktúra projektu
-
-```
-blocky/
-├── pom.xml
-├── store.json                        konfigurácia obchodu
-└── src/
-    ├── main/java/sk/blocky/
-    │   ├── Main.java                 vstupný bod, spája všetko dokopy
-    │   ├── AppInfo.java              názov a verzia aplikácie
-    │   ├── StoreInfo.java            údaje o obchode
-    │   ├── StoreInfoLoader.java      načítanie konfigurácie zo súboru
-    │   ├── Item.java                 položka nákupu
-    │   ├── Receipt.java              účtenka, výpočet súčtu, DPH a vrátenej sumy
-    │   ├── ReceiptInput.java         zadávanie položiek z konzoly
-    │   ├── ReceiptFormatter.java     textová podoba účtenky
-    │   ├── ReceiptWriter.java        uloženie do súboru
-    │   └── Money.java                formátovanie a čítanie čísel
-    └── test/java/sk/blocky/          unit testy
-```
