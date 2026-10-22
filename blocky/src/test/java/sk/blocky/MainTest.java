@@ -66,7 +66,7 @@ class MainTest {
     @Test
     void fallsBackToBundledConfig() {
         assertEquals(0, run("A\n1\n1\n\n\n"));
-        assertTrue(out().contains("Potraviny Blocky"));
+        assertTrue(out().contains("Potraviny COOP Jednota"));
     }
 
     @Test
