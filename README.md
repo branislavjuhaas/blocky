@@ -1,128 +1,128 @@
 # Blocky
 
-**Blocky** je jednoduchý nástroj pro příkazovou řádku, který vytiskne účtenku, jakou dostanete v samoobsluze, supermarketu nebo trafice. Účtenku vypíše do konzole a zároveň ji uloží do textového souboru. Cestu k souboru vypíše na konec.
+**Blocky** je jednoduchý nástroj pre príkazový riadok, ktorý vytlačí účtenku, akú dostanete v samoobsluhe, supermarkete alebo trafike. Účtenku vypíše do konzoly, zároveň ju uloží do textového súboru a na konci vypíše cestu k nemu.
 
-Aktuální verze: **2.0.0** (verzujeme podle [Semantic Versioning](https://semver.org/lang/cs/)).
+Aktuálna verzia: **2.1.0** (verzujeme podľa [Semantic Versioning](https://semver.org/lang/sk/)).
 
-## Autoři
+## Autori
 
 - Adam Mistrík
-- _doplňte jména dalších členů týmu_
+- _doplňte mená ďalších členov tímu_
 
-## Požadavky
+## Požiadavky
 
 - Java 25 (JDK)
-- Maven 3.9+ (nebo Maven přibalený v IntelliJ IDEA)
+- Maven 3.9+ (alebo Maven pribalený v IntelliJ IDEA)
 
-## Sestavení
+## Zostavenie
 
 ```bash
 cd blocky
 mvn package
 ```
 
-Maven přeloží kód, spustí unit testy a vytvoří spustitelný soubor `blocky/target/blocky-2.0.0.jar`.
+Maven preloží kód, spustí unit testy a vytvorí spustiteľný súbor `blocky/target/blocky-2.1.0.jar`.
 
-## Spuštění (bez vývojového prostředí)
+## Spustenie (bez vývojového prostredia)
 
 ```bash
 cd blocky
-java -jar target/blocky-2.0.0.jar                      # použije ./store.json
-java -jar target/blocky-2.0.0.jar jiny-obchod.json
-java -jar target/blocky-2.0.0.jar --version
-java -jar target/blocky-2.0.0.jar --help
+java -jar target/blocky-2.1.0.jar                      # použije ./store.json
+java -jar target/blocky-2.1.0.jar iny-obchod.json
+java -jar target/blocky-2.1.0.jar --version
+java -jar target/blocky-2.1.0.jar --help
 ```
 
-Program se postupně ptá na položky nákupu:
+Program sa postupne pýta na položky nákupu:
 
 ```
-Název položky 1: Rohlík
-  Množství [1]: 3
-  Cena za kus (Kč): 2,50
-  + Rohlík = 7,50 Kč
-Název položky 2:                ← prázdný název ukončí zadávání
-Celkem k úhradě: 7,50 Kč
-Zaplaceno (Kč) [7,50]: 10
+Názov položky 1: Rožok
+  Množstvo [1]: 3
+  Cena za kus (€): 0,15
+  + Rožok = 0,45 €
+Názov položky 2:                ← prázdny názov ukončí zadávanie
+Spolu na úhradu: 0,45 €
+Zaplatené (€) [0,45]: 1
 ```
 
-- Čísla lze psát s desetinnou čárkou i tečkou (`2,50` i `2.50`), množství může být desetinné (např. `0,5` kg).
-- Prázdné množství znamená 1 kus a prázdná platba znamená, že zákazník platí přesně.
-- Když zadáte neplatné číslo, program se zeptá znovu.
+- Čísla sa dajú písať s desatinnou čiarkou aj bodkou (`0,15` aj `0.15`). Množstvo môže byť desatinné (napr. `0,5` kg).
+- Prázdne množstvo znamená 1 kus a prázdna platba znamená, že zákazník platí presne.
+- Keď zadáte neplatné číslo, program sa opýta znova.
 
 Výsledná účtenka:
 
 ```
 ========================================
             Potraviny Blocky
-       Hlavní 123, 110 00 Praha 1
-     IČO: 12345678  DIČ: CZ12345678
-         Tel.: +420 123 456 789
+     Hlavná 123, 811 01 Bratislava
+     IČO: 12345678  DIČ: 2020123456
+         Tel.: +421 900 123 456
 ========================================
-Účtenka č.: 20261022-180538
-Datum:      22.10.2026 18:05:38
+Účtenka č.: 20261022-182004
+Dátum:      22.10.2026 18:20:04
 ----------------------------------------
-Rohlík
-  3 x 2,50                          7,50
-Mléko polotučné 1l
-  1 x 24,90                        24,90
+Rožok
+  3 x 0,15                          0,45
+Mlieko
+  1 x 1,09                          1,09
 Banány
-  1,25 x 39,90                     49,88
+  1,25 x 1,49                       1,86
 ----------------------------------------
-CELKEM                          82,28 Kč
+SPOLU                             3,40 €
 ----------------------------------------
-Zaplaceno                      100,00 Kč
-Vráceno                         17,72 Kč
+Zaplatené                         5,00 €
+Vrátené                           1,60 €
 ----------------------------------------
-Základ DPH 21 %                 68,00 Kč
-DPH 21 %                        14,28 Kč
+Základ DPH 23 %                   2,76 €
+DPH 23 %                          0,64 €
 ========================================
- Děkujeme za nákup a těšíme se na Vás!
-             Blocky v2.0.0
+ Ďakujeme za nákup a tešíme sa na Vás!
+             Blocky v2.1.0
 
-Účtenka byla uložena do souboru: /…/blocky/uctenky/uctenka-20261022-180538.txt
+Účtenka bola uložená do súboru: /…/blocky/uctenky/uctenka-20261022-182004.txt
 ```
 
-## Konfigurace obchodu
+## Konfigurácia obchodu
 
-Údaje, které se na účtence opakují, jsou v souboru `blocky/store.json` (JSON, UTF-8):
+Údaje, ktoré sa na účtenke opakujú, sú v súbore `blocky/store.json` (JSON, UTF-8):
 
 ```json
 {
   "store": {
     "name": "Potraviny Blocky",
-    "address": "Hlavní 123, 110 00 Praha 1",
+    "address": "Hlavná 123, 811 01 Bratislava",
     "ico": "12345678",
-    "dic": "CZ12345678",
-    "phone": "+420 123 456 789"
+    "dic": "2020123456",
+    "phone": "+421 900 123 456"
   },
   "receipt": {
-    "footer": "Děkujeme za nákup a těšíme se na Vás!",
-    "currency": "Kč",
+    "footer": "Ďakujeme za nákup a tešíme sa na Vás!",
+    "currency": "€",
     "width": 40
   },
-  "vatRate": 21,
+  "vatRate": 23,
   "outputDir": "uctenky"
 }
 ```
 
-| Klíč               | Typ    | Význam                                | Výchozí hodnota |
-|--------------------|--------|---------------------------------------|-----------------|
-| `store.name`       | text   | název obchodu (**povinné**)           |                 |
-| `store.address`    | text   | adresa                                | prázdné         |
-| `store.ico`        | text   | IČO                                   | prázdné         |
-| `store.dic`        | text   | DIČ                                   | prázdné         |
-| `store.phone`      | text   | telefon                               | prázdné         |
-| `receipt.footer`   | text   | text v patičce                        | prázdné         |
-| `receipt.currency` | text   | měna                                  | `Kč`            |
-| `receipt.width`    | číslo  | šířka účtenky ve znacích (min. 30)    | `40`            |
-| `vatRate`          | číslo  | sazba DPH v %, ceny se zadávají s DPH | `21`            |
-| `outputDir`        | text   | složka, kam se ukládají účtenky       | `uctenky`       |
+| Kľúč               | Typ   | Význam                                 | Predvolená hodnota |
+|--------------------|-------|----------------------------------------|--------------------|
+| `store.name`       | text  | názov obchodu (**povinné**)            |                    |
+| `store.address`    | text  | adresa                                 | prázdne            |
+| `store.ico`        | text  | IČO                                    | prázdne            |
+| `store.dic`        | text  | DIČ                                    | prázdne            |
+| `store.phone`      | text  | telefón                                | prázdne            |
+| `receipt.footer`   | text  | text v päte účtenky                    | prázdne            |
+| `receipt.currency` | text  | mena                                   | `€`                |
+| `receipt.width`    | číslo | šírka účtenky v znakoch (min. 30)      | `40`               |
+| `vatRate`          | číslo | sadzba DPH v %, ceny sa zadávajú s DPH | `23`               |
+| `outputDir`        | text  | priečinok, kam sa ukladajú účtenky     | `uctenky`          |
 
-Nepovinné klíče lze vynechat. JSON se čte striktně: překlep (chybějící uvozovky, čárka navíc) nebo špatný typ hodnoty program ohlásí a skončí.
+Nepovinné kľúče sa dajú vynechať. JSON sa číta striktne: preklep (chýbajúce úvodzovky, čiarka navyše) alebo zlý typ hodnoty program oznámi a skončí.
 
-Pokud ve složce, odkud program spouštíte, žádný `store.json` není, použije se výchozí konfigurace přibalená v JAR souboru.
+Ak v priečinku, z ktorého program spúšťate, nie je žiadny `store.json`, použije sa predvolená konfigurácia pribalená v JAR súbore.
 
-JSON čte knihovna [Gson](https://github.com/google/gson). Maven ji při `package` zabalí přímo do JAR (maven-shade-plugin), takže pro spuštění stačí jen Java.
+JSON číta knižnica [Gson](https://github.com/google/gson). Maven ju pri `package` zabalí priamo do JAR (maven-shade-plugin), takže na spustenie stačí len Java.
 
 ## Testy
 
@@ -131,43 +131,43 @@ cd blocky
 mvn test
 ```
 
-Unit testy (JUnit 5) pokrývají načítání konfigurace, výpočty cen a DPH, formátování čísel a účtenky, zadávání od uživatele, ukládání do souboru i celý běh programu.
+Unit testy (JUnit 5) pokrývajú načítanie konfigurácie, výpočty cien a DPH, formátovanie čísel a účtenky, zadávanie od používateľa, ukladanie do súboru aj celý beh programu.
 
-## Jak vydat další verzi
+## Ako vydať ďalšiu verziu
 
-1. Udělejte změny v kódu a doplňte k nim testy.
-2. Zvyšte verzi v `blocky/pom.xml` (`<version>`) podle sémantického verzování:
-   - **PATCH** (`2.0.0` → `2.0.1`): oprava chyby,
-   - **MINOR** (`2.0.0` → `2.1.0`): nová funkce, která nic nerozbije,
-   - **MAJOR** (`1.0.0` → `2.0.0`): nekompatibilní změna (např. přechod konfigurace z `.properties` na JSON ve verzi 2.0.0).
+1. Urobte zmeny v kóde a doplňte k nim testy.
+2. Zvýšte verziu v `blocky/pom.xml` (`<version>`) podľa sémantického verzovania:
+   - **PATCH** (`2.1.0` → `2.1.1`): oprava chyby,
+   - **MINOR** (`2.1.0` → `2.2.0`): nová funkcia, ktorá nič nerozbije (napr. preklad do slovenčiny vo verzii 2.1.0),
+   - **MAJOR** (`2.1.0` → `3.0.0`): nekompatibilná zmena (napr. prechod konfigurácie z `.properties` na JSON vo verzii 2.0.0).
 
-   Verze se automaticky propíše do programu (`--version`) i do patičky účtenky.
-3. Sestavte a otestujte: `mvn clean package`.
-4. Commitněte, označte verzi tagem a pushněte:
+   Verzia sa automaticky prepíše do programu (`--version`) aj do päty účtenky.
+3. Zostavte a otestujte: `mvn clean package`.
+4. Commitnite, označte verziu tagom a pushnite:
    ```bash
-   git commit -am "Release 2.1.0"
-   git tag v2.1.0
+   git commit -am "Release 2.2.0"
+   git tag v2.2.0
    git push && git push --tags
    ```
-5. Volitelně nahrajte `target/blocky-2.1.0.jar` na GitHub jako release.
+5. Voliteľne nahrajte `target/blocky-2.2.0.jar` na GitHub ako release.
 
-## Struktura projektu
+## Štruktúra projektu
 
 ```
 blocky/
 ├── pom.xml
-├── store.json                        konfigurace obchodu
+├── store.json                        konfigurácia obchodu
 └── src/
-    ├── main/java/cz/blocky/
-    │   ├── Main.java                 vstupní bod, spojuje vše dohromady
-    │   ├── AppInfo.java              název a verze aplikace
-    │   ├── StoreInfo.java            údaje o obchodě
-    │   ├── StoreInfoLoader.java      načtení konfigurace ze souboru
+    ├── main/java/sk/blocky/
+    │   ├── Main.java                 vstupný bod, spája všetko dokopy
+    │   ├── AppInfo.java              názov a verzia aplikácie
+    │   ├── StoreInfo.java            údaje o obchode
+    │   ├── StoreInfoLoader.java      načítanie konfigurácie zo súboru
     │   ├── Item.java                 položka nákupu
-    │   ├── Receipt.java              účtenka, výpočet součtu, DPH a vrácení
-    │   ├── ReceiptInput.java         zadávání položek z konzole
+    │   ├── Receipt.java              účtenka, výpočet súčtu, DPH a vrátenej sumy
+    │   ├── ReceiptInput.java         zadávanie položiek z konzoly
     │   ├── ReceiptFormatter.java     textová podoba účtenky
-    │   ├── ReceiptWriter.java        uložení do souboru
-    │   └── Money.java                formátování a čtení čísel
-    └── test/java/cz/blocky/          unit testy
+    │   ├── ReceiptWriter.java        uloženie do súboru
+    │   └── Money.java                formátovanie a čítanie čísel
+    └── test/java/sk/blocky/          unit testy
 ```

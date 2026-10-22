@@ -1,4 +1,4 @@
-package cz.blocky;
+package sk.blocky;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -50,17 +50,17 @@ class MainTest {
         assertTrue(Files.exists(saved));
         String content = Files.readString(saved, StandardCharsets.UTF_8);
         assertTrue(content.contains("Trafika U Testu"));
-        assertTrue(content.contains("70,00 Kč"));
-        assertTrue(content.contains("30,00 Kč"));
-        assertTrue(out().contains(content.strip()), "účtenka se musí vypsat i do konzole");
-        assertTrue(out().contains("Účtenka byla uložena do souboru: " + saved));
+        assertTrue(content.contains("70,00 €"));
+        assertTrue(content.contains("30,00 €"));
+        assertTrue(out().contains(content.strip()), "účtenka sa musí vypísať aj do konzoly");
+        assertTrue(out().contains("Účtenka bola uložená do súboru: " + saved));
     }
 
     @Test
     void usesConfigFileFromArgument() throws IOException {
-        Files.writeString(dir.resolve("jiny.json"), "{\"store\": {\"name\": \"Jiný obchod\"}}", StandardCharsets.UTF_8);
+        Files.writeString(dir.resolve("jiny.json"), "{\"store\": {\"name\": \"Iný obchod\"}}", StandardCharsets.UTF_8);
         assertEquals(0, run("A\n1\n1\n\n\n", "jiny.json"));
-        assertTrue(out().contains("Jiný obchod"));
+        assertTrue(out().contains("Iný obchod"));
     }
 
     @Test
@@ -72,7 +72,7 @@ class MainTest {
     @Test
     void nothingIsSavedWithoutItems() throws IOException {
         assertEquals(0, run("\n"));
-        assertTrue(out().contains("Nebyla zadána žádná položka"));
+        assertTrue(out().contains("Nebola zadaná žiadna položka"));
         try (Stream<Path> files = Files.list(dir)) {
             assertEquals(0, files.count());
         }
@@ -81,7 +81,7 @@ class MainTest {
     @Test
     void reportsMissingConfigFile() {
         assertEquals(1, run("", "neexistuje.json"));
-        assertTrue(err.toString(StandardCharsets.UTF_8).contains("Konfigurační soubor nenalezen"));
+        assertTrue(err.toString(StandardCharsets.UTF_8).contains("Konfiguračný súbor sa nenašiel"));
     }
 
     @Test
@@ -89,7 +89,7 @@ class MainTest {
         assertEquals(0, run("", "--version"));
         assertTrue(out().startsWith("Blocky v"));
         assertEquals(0, run("", "--help"));
-        assertTrue(out().contains("Použití"));
+        assertTrue(out().contains("Použitie"));
     }
 
     @Test

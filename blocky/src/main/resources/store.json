@@ -1,16 +1,16 @@
 {
   "store": {
     "name": "Potraviny Blocky",
-    "address": "Hlavní 123, 110 00 Praha 1",
+    "address": "Hlavná 123, 811 01 Bratislava",
     "ico": "12345678",
-    "dic": "CZ12345678",
-    "phone": "+420 123 456 789"
+    "dic": "2020123456",
+    "phone": "+421 900 123 456"
   },
   "receipt": {
-    "footer": "Děkujeme za nákup a těšíme se na Vás!",
-    "currency": "Kč",
+    "footer": "Ďakujeme za nákup a tešíme sa na Vás!",
+    "currency": "€",
     "width": 40
   },
-  "vatRate": 21,
+  "vatRate": 23,
   "outputDir": "uctenky"
 }

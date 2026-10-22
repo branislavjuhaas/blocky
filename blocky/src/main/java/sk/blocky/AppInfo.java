@@ -1,11 +1,11 @@
-package cz.blocky;
+package sk.blocky;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * Název a verze aplikace. Hodnoty doplňuje Maven z pom.xml při buildu.
+ * Názov a verzia aplikácie. Hodnoty dopĺňa Maven z pom.xml pri builde.
  */
 public record AppInfo(String name, String version) {
 
@@ -18,7 +18,7 @@ public record AppInfo(String name, String version) {
                 props.load(in);
             }
         } catch (IOException e) {
-            // bez souboru použijeme výchozí hodnoty
+            // bez súboru použijeme predvolené hodnoty
         }
         return new AppInfo(
                 props.getProperty("app.name", "Blocky"),

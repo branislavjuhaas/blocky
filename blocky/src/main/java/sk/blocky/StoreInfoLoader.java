@@ -1,4 +1,4 @@
-package cz.blocky;
+package sk.blocky;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -16,7 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 /**
- * Načítá {@link StoreInfo} ze souboru ve formátu JSON (UTF-8).
+ * Načítava {@link StoreInfo} zo súboru vo formáte JSON (UTF-8).
  */
 public final class StoreInfoLoader {
 
@@ -25,21 +25,21 @@ public final class StoreInfoLoader {
     private StoreInfoLoader() {
     }
 
-    /** Načte konfiguraci ze zadaného souboru. */
+    /** Načíta konfiguráciu zo zadaného súboru. */
     public static StoreInfo load(Path file) throws IOException {
         if (!Files.isRegularFile(file)) {
-            throw new IOException("Konfigurační soubor nenalezen: " + file.toAbsolutePath());
+            throw new IOException("Konfiguračný súbor sa nenašiel: " + file.toAbsolutePath());
         }
         try (Reader reader = Files.newBufferedReader(file, StandardCharsets.UTF_8)) {
             return load(reader);
         }
     }
 
-    /** Načte výchozí konfiguraci přibalenou v JAR souboru. */
+    /** Načíta predvolenú konfiguráciu pribalenú v JAR súbore. */
     public static StoreInfo loadDefault() throws IOException {
         try (InputStream in = StoreInfoLoader.class.getResourceAsStream("/" + DEFAULT_FILE)) {
             if (in == null) {
-                throw new IOException("Výchozí konfigurace " + DEFAULT_FILE + " chybí");
+                throw new IOException("Predvolená konfigurácia " + DEFAULT_FILE + " chýba");
             }
             return load(new InputStreamReader(in, StandardCharsets.UTF_8));
         }
@@ -52,18 +52,18 @@ public final class StoreInfoLoader {
             json.setStrictness(Strictness.STRICT);
             JsonElement element = JsonParser.parseReader(json);
             if (!element.isJsonObject()) {
-                throw new IOException("Konfigurace musí být JSON objekt");
+                throw new IOException("Konfigurácia musí byť JSON objekt");
             }
             root = element.getAsJsonObject();
         } catch (JsonParseException e) {
-            throw new IOException("Neplatný JSON v konfiguraci: " + e.getMessage(), e);
+            throw new IOException("Neplatný JSON v konfigurácii: " + e.getMessage(), e);
         }
 
         JsonObject store = object(root, "store");
         JsonObject receipt = object(root, "receipt");
         String name = string(store, "store.name", "name", "");
         if (name.isEmpty()) {
-            throw new IOException("V konfiguraci chybí povinná položka store.name");
+            throw new IOException("V konfigurácii chýba povinná položka store.name");
         }
         try {
             return new StoreInfo(
@@ -73,25 +73,25 @@ public final class StoreInfoLoader {
                     string(store, "store.dic", "dic", ""),
                     string(store, "store.phone", "phone", ""),
                     string(receipt, "receipt.footer", "footer", ""),
-                    string(receipt, "receipt.currency", "currency", "Kč"),
+                    string(receipt, "receipt.currency", "currency", "€"),
                     number(receipt, "receipt.width", "width", BigDecimal.valueOf(40)).intValueExact(),
-                    number(root, "vatRate", "vatRate", BigDecimal.valueOf(21)),
+                    number(root, "vatRate", "vatRate", BigDecimal.valueOf(23)),
                     string(root, "outputDir", "outputDir", ""));
         } catch (ArithmeticException e) {
-            throw new IOException("receipt.width musí být celé číslo", e);
+            throw new IOException("receipt.width musí byť celé číslo", e);
         } catch (IllegalArgumentException e) {
-            throw new IOException("Neplatná konfigurace: " + e.getMessage(), e);
+            throw new IOException("Neplatná konfigurácia: " + e.getMessage(), e);
         }
     }
 
-    /** Vnořený objekt; pokud chybí, vrátí prázdný. */
+    /** Vnorený objekt; ak chýba, vráti prázdny. */
     private static JsonObject object(JsonObject parent, String key) throws IOException {
         JsonElement e = parent.get(key);
         if (e == null || e.isJsonNull()) {
             return new JsonObject();
         }
         if (!e.isJsonObject()) {
-            throw new IOException("\"" + key + "\" musí být JSON objekt");
+            throw new IOException("\"" + key + "\" musí byť JSON objekt");
         }
         return e.getAsJsonObject();
     }
@@ -102,7 +102,7 @@ public final class StoreInfoLoader {
             return defaultValue;
         }
         if (!e.isJsonPrimitive() || !e.getAsJsonPrimitive().isString()) {
-            throw new IOException(path + " musí být text");
+            throw new IOException(path + " musí byť text");
         }
         return e.getAsString().strip();
     }
@@ -114,7 +114,7 @@ public final class StoreInfoLoader {
             return defaultValue;
         }
         if (!e.isJsonPrimitive() || !e.getAsJsonPrimitive().isNumber()) {
-            throw new IOException(path + " musí být číslo");
+            throw new IOException(path + " musí byť číslo");
         }
         return e.getAsBigDecimal();
     }

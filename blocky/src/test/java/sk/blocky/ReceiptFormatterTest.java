@@ -1,6 +1,6 @@
-package cz.blocky;
+package sk.blocky;
 
-import static cz.blocky.TestData.dec;
+import static sk.blocky.TestData.dec;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -20,38 +20,38 @@ class ReceiptFormatterTest {
     void containsAllImportantParts() {
         String text = formatter.format(receipt(List.of(
                 new Item("Rohlík", dec("3"), dec("2.50")),
-                new Item("Mléko", dec("1"), dec("24.90"))), "50"));
+                new Item("Mlieko", dec("1"), dec("24.90"))), "50"));
 
         assertTrue(text.contains("Potraviny Test"));
-        assertTrue(text.contains("IČO: 12345678  DIČ: CZ12345678"));
+        assertTrue(text.contains("IČO: 12345678  DIČ: 2020123456"));
         assertTrue(text.contains("Účtenka č.: 20261022-170509"));
         assertTrue(text.contains("22.10.2026 17:05:09"));
         assertTrue(text.contains("Rohlík"));
         assertTrue(text.contains("3 x 2,50"));
-        assertTrue(text.contains("CELKEM"));
-        assertTrue(text.contains("32,40 Kč"));
-        assertTrue(text.contains("17,60 Kč"));
-        assertTrue(text.contains("DPH 21 %"));
-        assertTrue(text.contains("Děkujeme za nákup!"));
+        assertTrue(text.contains("SPOLU"));
+        assertTrue(text.contains("32,40 €"));
+        assertTrue(text.contains("17,60 €"));
+        assertTrue(text.contains("DPH 23 %"));
+        assertTrue(text.contains("Ďakujeme za nákup!"));
         assertTrue(text.contains("Blocky v1.0.0"));
     }
 
     @Test
     void noLineIsWiderThanReceipt() {
         String text = formatter.format(receipt(List.of(
-                new Item("Extrémně dlouhý název položky, který se na účtenku nevejde", dec("1000"), dec("99999.99"))),
+                new Item("Extrémne dlhý názov položky, ktorý sa na účtenku nezmestí", dec("1000"), dec("99999.99"))),
                 "100000000"));
         for (String line : text.split("\\R")) {
-            assertTrue(line.length() <= 40, "Příliš dlouhý řádek: '" + line + "'");
+            assertTrue(line.length() <= 40, "Príliš dlhý riadok: '" + line + "'");
         }
     }
 
     @Test
     void amountsAreRightAligned() {
         String text = formatter.format(receipt(List.of(new Item("A", dec("1"), dec("5"))), "5"));
-        String totalLine = text.lines().filter(l -> l.startsWith("CELKEM")).findFirst().orElseThrow();
+        String totalLine = text.lines().filter(l -> l.startsWith("SPOLU")).findFirst().orElseThrow();
         assertEquals(40, totalLine.length());
-        assertTrue(totalLine.endsWith("5,00 Kč"));
+        assertTrue(totalLine.endsWith("5,00 €"));
     }
 
     @Test

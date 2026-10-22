@@ -1,4 +1,4 @@
-package cz.blocky;
+package sk.blocky;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -15,17 +15,17 @@ public record Item(String name, BigDecimal quantity, BigDecimal unitPrice) {
         Objects.requireNonNull(unitPrice, "unitPrice");
         name = name.strip();
         if (name.isEmpty()) {
-            throw new IllegalArgumentException("Název položky nesmí být prázdný");
+            throw new IllegalArgumentException("Názov položky nesmie byť prázdny");
         }
         if (quantity.signum() <= 0) {
-            throw new IllegalArgumentException("Množství musí být kladné");
+            throw new IllegalArgumentException("Množstvo musí byť kladné");
         }
         if (unitPrice.signum() < 0) {
-            throw new IllegalArgumentException("Cena nesmí být záporná");
+            throw new IllegalArgumentException("Cena nesmie byť záporná");
         }
     }
 
-    /** Cena za položku celkem, zaokrouhlená na haléře. */
+    /** Cena za položku spolu, zaokrúhlená na centy. */
     public BigDecimal total() {
         return quantity.multiply(unitPrice).setScale(2, RoundingMode.HALF_UP);
     }

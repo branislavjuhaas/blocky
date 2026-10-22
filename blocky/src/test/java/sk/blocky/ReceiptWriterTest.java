@@ -1,4 +1,4 @@
-package cz.blocky;
+package sk.blocky;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -29,12 +29,12 @@ class ReceiptWriterTest {
     @Test
     void neverOverwritesExistingReceipt() throws IOException {
         ReceiptWriter writer = new ReceiptWriter(dir);
-        Path first = writer.write("1", "první");
+        Path first = writer.write("1", "prvá");
         Path second = writer.write("1", "druhá");
 
         assertNotEquals(first, second);
         assertEquals("uctenka-1-1.txt", second.getFileName().toString());
-        assertEquals("první", Files.readString(first));
+        assertEquals("prvá", Files.readString(first));
         assertEquals("druhá", Files.readString(second));
     }
 }

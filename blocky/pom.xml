@@ -4,13 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>cz.blocky</groupId>
+    <groupId>sk.blocky</groupId>
     <artifactId>blocky</artifactId>
-    <version>2.0.0</version>
+    <version>2.1.0</version>
     <packaging>jar</packaging>
 
     <name>Blocky</name>
-    <description>Jednoduchý nástroj pro tisk účtenek z příkazové řádky</description>
+    <description>Jednoduchý nástroj na tlač účteniek z príkazového riadka</description>
 
     <properties>
         <maven.compiler.release>25</maven.compiler.release>
@@ -36,7 +36,7 @@
     <build>
         <finalName>${project.artifactId}-${project.version}</finalName>
         <resources>
-            <!-- verze a název aplikace se doplní z pom.xml -->
+            <!-- verzia a názov aplikácie sa doplnia z pom.xml -->
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
@@ -70,12 +70,12 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>cz.blocky.Main</mainClass>
+                            <mainClass>sk.blocky.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
             </plugin>
-            <!-- zabalí Gson do výsledného JAR, aby šel spustit přes java -jar -->
+            <!-- zabalí Gson do výsledného JAR, aby sa dal spustiť cez java -jar -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>

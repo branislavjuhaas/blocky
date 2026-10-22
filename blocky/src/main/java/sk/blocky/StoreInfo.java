@@ -1,10 +1,10 @@
-package cz.blocky;
+package sk.blocky;
 
 import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
- * Údaje, které se opakují na každé účtence (obchod, DIČ, patička...).
+ * Údaje, ktoré sa opakujú na každej účtenke (obchod, DIČ, päta...).
  */
 public record StoreInfo(
         String name,
@@ -23,13 +23,13 @@ public record StoreInfo(
     public StoreInfo {
         Objects.requireNonNull(name, "name");
         if (name.isBlank()) {
-            throw new IllegalArgumentException("Název obchodu nesmí být prázdný");
+            throw new IllegalArgumentException("Názov obchodu nesmie byť prázdny");
         }
         if (width < MIN_WIDTH) {
-            throw new IllegalArgumentException("Šířka účtenky musí být alespoň " + MIN_WIDTH + " znaků");
+            throw new IllegalArgumentException("Šírka účtenky musí byť aspoň " + MIN_WIDTH + " znakov");
         }
         if (vatRate.signum() < 0) {
-            throw new IllegalArgumentException("Sazba DPH nesmí být záporná");
+            throw new IllegalArgumentException("Sadzba DPH nesmie byť záporná");
         }
         address = Objects.requireNonNullElse(address, "");
         ico = Objects.requireNonNullElse(ico, "");

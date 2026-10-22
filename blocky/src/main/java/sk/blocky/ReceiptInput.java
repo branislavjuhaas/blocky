@@ -1,4 +1,4 @@
-package cz.blocky;
+package sk.blocky;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Interaktivně načítá položky nákupu a platbu od uživatele.
+ * Interaktívne načítava položky nákupu a platbu od používateľa.
  */
 public final class ReceiptInput {
 
@@ -24,19 +24,19 @@ public final class ReceiptInput {
     }
 
     /**
-     * Načítá položky, dokud uživatel nezadá prázdný název (nebo neskončí vstup).
+     * Načítava položky, kým používateľ nezadá prázdny názov (alebo neskončí vstup).
      */
     public List<Item> readItems() throws IOException {
         List<Item> items = new ArrayList<>();
-        out.println("Zadávejte položky nákupu. Prázdný název ukončí zadávání.");
+        out.println("Zadávajte položky nákupu. Prázdny názov ukončí zadávanie.");
         while (true) {
-            out.print("Název položky " + (items.size() + 1) + ": ");
+            out.print("Názov položky " + (items.size() + 1) + ": ");
             out.flush();
             String name = in.readLine();
             if (name == null || name.isBlank()) {
                 return items;
             }
-            Optional<BigDecimal> quantity = readNumber("  Množství [1]: ", BigDecimal.ONE, true);
+            Optional<BigDecimal> quantity = readNumber("  Množstvo [1]: ", BigDecimal.ONE, true);
             if (quantity.isEmpty()) {
                 return items;
             }
@@ -51,12 +51,12 @@ public final class ReceiptInput {
     }
 
     /**
-     * Načte zaplacenou částku. Prázdný vstup znamená, že se platí přesně.
+     * Načíta zaplatenú sumu. Prázdny vstup znamená, že sa platí presne.
      */
     public BigDecimal readPayment(BigDecimal total) throws IOException {
-        out.println("Celkem k úhradě: " + Money.format(total) + " " + currency);
+        out.println("Spolu na úhradu: " + Money.format(total) + " " + currency);
         while (true) {
-            out.print("Zaplaceno (" + currency + ") [" + Money.format(total) + "]: ");
+            out.print("Zaplatené (" + currency + ") [" + Money.format(total) + "]: ");
             out.flush();
             String line = in.readLine();
             if (line == null || line.isBlank()) {
@@ -67,16 +67,16 @@ public final class ReceiptInput {
                 if (paid.compareTo(total) >= 0) {
                     return paid;
                 }
-                out.println("  Zaplacená částka nesmí být menší než " + Money.format(total) + " " + currency + ".");
+                out.println("  Zaplatená suma nesmie byť menšia ako " + Money.format(total) + " " + currency + ".");
             } catch (NumberFormatException e) {
-                out.println("  Neplatné číslo, zkuste to znovu.");
+                out.println("  Neplatné číslo, skúste to znova.");
             }
         }
     }
 
     /**
-     * Opakovaně se ptá na číslo, dokud není platné. Prázdné vrátí výchozí hodnotu (pokud existuje).
-     * Prázdný Optional znamená konec vstupu.
+     * Opakovane sa pýta na číslo, kým nie je platné. Prázdne vráti predvolenú hodnotu (ak existuje).
+     * Prázdny Optional znamená koniec vstupu.
      */
     private Optional<BigDecimal> readNumber(String prompt, BigDecimal defaultValue, boolean positive) throws IOException {
         while (true) {
@@ -92,14 +92,14 @@ public final class ReceiptInput {
             try {
                 BigDecimal value = Money.parse(line);
                 if (positive && value.signum() <= 0) {
-                    out.println("  Hodnota musí být větší než 0.");
+                    out.println("  Hodnota musí byť väčšia ako 0.");
                 } else if (value.signum() < 0) {
-                    out.println("  Hodnota nesmí být záporná.");
+                    out.println("  Hodnota nesmie byť záporná.");
                 } else {
                     return Optional.of(value);
                 }
             } catch (NumberFormatException e) {
-                out.println("  Neplatné číslo, zkuste to znovu.");
+                out.println("  Neplatné číslo, skúste to znova.");
             }
         }
     }

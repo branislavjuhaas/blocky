@@ -1,6 +1,6 @@
-package cz.blocky;
+package sk.blocky;
 
-import static cz.blocky.TestData.dec;
+import static sk.blocky.TestData.dec;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -31,14 +31,14 @@ class StoreInfoLoaderTest {
         Files.writeString(file, """
                 {
                   "store": {
-                    "name": "Večerka Žluťoučký kůň",
-                    "address": "Náměstí 5, Brno",
+                    "name": "Potraviny Ľalia Šťastná",
+                    "address": "Námestie 5, Košice",
                     "ico": "87654321",
                     "dic": "CZ87654321",
                     "phone": "+420 999 888 777"
                   },
                   "receipt": {
-                    "footer": "Díky!",
+                    "footer": "Vďaka!",
                     "currency": "EUR",
                     "width": 48
                   },
@@ -49,12 +49,12 @@ class StoreInfoLoaderTest {
 
         StoreInfo s = StoreInfoLoader.load(file);
 
-        assertEquals("Večerka Žluťoučký kůň", s.name());
-        assertEquals("Náměstí 5, Brno", s.address());
+        assertEquals("Potraviny Ľalia Šťastná", s.name());
+        assertEquals("Námestie 5, Košice", s.address());
         assertEquals("87654321", s.ico());
         assertEquals("CZ87654321", s.dic());
         assertEquals("+420 999 888 777", s.phone());
-        assertEquals("Díky!", s.footer());
+        assertEquals("Vďaka!", s.footer());
         assertEquals("EUR", s.currency());
         assertEquals(48, s.width());
         assertEquals(dec("12"), s.vatRate());
@@ -65,9 +65,9 @@ class StoreInfoLoaderTest {
     void usesDefaultsForOptionalValues() throws IOException {
         StoreInfo s = load("{\"store\": {\"name\": \"Obchod\"}}");
         assertEquals("", s.address());
-        assertEquals("Kč", s.currency());
+        assertEquals("€", s.currency());
         assertEquals(40, s.width());
-        assertEquals(dec("21"), s.vatRate());
+        assertEquals(dec("23"), s.vatRate());
         assertEquals("uctenky", s.outputDir());
     }
 
@@ -76,7 +76,7 @@ class StoreInfoLoaderTest {
         StoreInfo s = load("{\"store\": {\"name\": \"A\", \"ico\": null}, \"receipt\": null, \"vatRate\": null}");
         assertEquals("", s.ico());
         assertEquals(40, s.width());
-        assertEquals(dec("21"), s.vatRate());
+        assertEquals(dec("23"), s.vatRate());
     }
 
     @Test

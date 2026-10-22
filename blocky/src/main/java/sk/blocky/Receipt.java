@@ -1,4 +1,4 @@
-package cz.blocky;
+package sk.blocky;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Účtenka: obchod, položky, zaplacená částka a čas vystavení.
- * Ceny jsou včetně DPH.
+ * Účtenka: obchod, položky, zaplatená suma a čas vystavenia.
+ * Ceny sú vrátane DPH.
  */
 public record Receipt(StoreInfo store, List<Item> items, BigDecimal paid, LocalDateTime issuedAt) {
 
@@ -21,11 +21,11 @@ public record Receipt(StoreInfo store, List<Item> items, BigDecimal paid, LocalD
         Objects.requireNonNull(issuedAt, "issuedAt");
         items = List.copyOf(items);
         if (items.isEmpty()) {
-            throw new IllegalArgumentException("Účtenka musí obsahovat alespoň jednu položku");
+            throw new IllegalArgumentException("Účtenka musí obsahovať aspoň jednu položku");
         }
         paid = paid.setScale(2, RoundingMode.HALF_UP);
         if (paid.compareTo(total(items)) < 0) {
-            throw new IllegalArgumentException("Zaplacená částka je nižší než celková cena");
+            throw new IllegalArgumentException("Zaplatená suma je nižšia ako celková cena");
         }
     }
 
@@ -37,7 +37,7 @@ public record Receipt(StoreInfo store, List<Item> items, BigDecimal paid, LocalD
         return paid.subtract(total());
     }
 
-    /** DPH obsažená v celkové ceně: celkem * sazba / (100 + sazba). */
+    /** DPH obsiahnutá v celkovej cene: spolu * sadzba / (100 + sadzba). */
     public BigDecimal vat() {
         BigDecimal rate = store.vatRate();
         return total().multiply(rate)

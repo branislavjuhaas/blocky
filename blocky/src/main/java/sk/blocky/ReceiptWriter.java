@@ -1,4 +1,4 @@
-package cz.blocky;
+package sk.blocky;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
 /**
- * Ukládá účtenky do textových souborů.
+ * Ukladá účtenky do textových súborov.
  */
 public final class ReceiptWriter {
 
@@ -19,8 +19,8 @@ public final class ReceiptWriter {
     }
 
     /**
-     * Uloží text účtenky do nového souboru a vrátí jeho absolutní cestu.
-     * Existující soubory se nikdy nepřepisují.
+     * Uloží text účtenky do nového súboru a vráti jeho absolútnu cestu.
+     * Existujúce súbory sa nikdy neprepisujú.
      */
     public Path write(String receiptNumber, String content) throws IOException {
         Files.createDirectories(directory);
@@ -31,7 +31,7 @@ public final class ReceiptWriter {
                 Files.writeString(file, content, StandardCharsets.UTF_8, StandardOpenOption.CREATE_NEW);
                 return file.toAbsolutePath().normalize();
             } catch (FileAlreadyExistsException e) {
-                // zkusíme další název
+                // skúsime ďalší názov
             }
         }
     }

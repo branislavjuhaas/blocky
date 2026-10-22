@@ -1,11 +1,11 @@
-package cz.blocky;
+package sk.blocky;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Převede {@link Receipt} na text, který vypadá jako účtenka z pokladny.
+ * Prevedie {@link Receipt} na text, ktorý vyzerá ako účtenka z pokladnice.
  */
 public final class ReceiptFormatter {
 
@@ -31,7 +31,7 @@ public final class ReceiptFormatter {
         addCentered(lines, store.phone().isEmpty() ? "" : "Tel.: " + store.phone(), width);
         lines.add("=".repeat(width));
         lines.add("Účtenka č.: " + receipt.number());
-        lines.add("Datum:      " + receipt.issuedAt().format(DATE_FORMAT));
+        lines.add("Dátum:      " + receipt.issuedAt().format(DATE_FORMAT));
         lines.add("-".repeat(width));
 
         for (Item item : receipt.items()) {
@@ -41,10 +41,10 @@ public final class ReceiptFormatter {
         }
 
         lines.add("-".repeat(width));
-        lines.add(leftRight("CELKEM", Money.format(receipt.total()) + cur, width));
+        lines.add(leftRight("SPOLU", Money.format(receipt.total()) + cur, width));
         lines.add("-".repeat(width));
-        lines.add(leftRight("Zaplaceno", Money.format(receipt.paid()) + cur, width));
-        lines.add(leftRight("Vráceno", Money.format(receipt.change()) + cur, width));
+        lines.add(leftRight("Zaplatené", Money.format(receipt.paid()) + cur, width));
+        lines.add(leftRight("Vrátené", Money.format(receipt.change()) + cur, width));
         lines.add("-".repeat(width));
         String rate = Money.formatQuantity(store.vatRate()) + " %";
         lines.add(leftRight("Základ DPH " + rate, Money.format(receipt.totalWithoutVat()) + cur, width));
@@ -79,7 +79,7 @@ public final class ReceiptFormatter {
         return " ".repeat(padding) + t;
     }
 
-    /** Text vlevo, částka zarovnaná vpravo. Částka se nikdy neořízne. */
+    /** Text vľavo, suma zarovnaná vpravo. Suma sa nikdy neoreže. */
     static String leftRight(String left, String right, int width) {
         int maxLeft = Math.max(0, width - right.length() - 1);
         String l = truncate(left, maxLeft);

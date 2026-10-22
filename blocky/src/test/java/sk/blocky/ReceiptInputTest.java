@@ -1,6 +1,6 @@
-package cz.blocky;
+package sk.blocky;
 
-import static cz.blocky.TestData.dec;
+import static sk.blocky.TestData.dec;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -19,7 +19,7 @@ class ReceiptInputTest {
 
     private ReceiptInput input(String text) {
         return new ReceiptInput(new BufferedReader(new StringReader(text)),
-                new PrintStream(output, true, StandardCharsets.UTF_8), "Kč");
+                new PrintStream(output, true, StandardCharsets.UTF_8), "€");
     }
 
     private String output() {
@@ -28,21 +28,21 @@ class ReceiptInputTest {
 
     @Test
     void readsItemsUntilEmptyName() throws IOException {
-        List<Item> items = input("Rohlík\n3\n2,50\nMléko\n\n24.90\n\n").readItems();
+        List<Item> items = input("Rohlík\n3\n2,50\nMlieko\n\n24.90\n\n").readItems();
 
         assertEquals(List.of(
                 new Item("Rohlík", dec("3"), dec("2.50")),
-                new Item("Mléko", dec("1"), dec("24.90"))), items);
+                new Item("Mlieko", dec("1"), dec("24.90"))), items);
     }
 
     @Test
     void repeatsQuestionOnInvalidNumber() throws IOException {
-        List<Item> items = input("Chléb\nabc\n0\n-1\n2\nxx\n-5\n30\n\n").readItems();
+        List<Item> items = input("Chlieb\nabc\n0\n-1\n2\nxx\n-5\n30\n\n").readItems();
 
-        assertEquals(List.of(new Item("Chléb", dec("2"), dec("30"))), items);
+        assertEquals(List.of(new Item("Chlieb", dec("2"), dec("30"))), items);
         assertTrue(output().contains("Neplatné číslo"));
-        assertTrue(output().contains("musí být větší než 0"));
-        assertTrue(output().contains("nesmí být záporná"));
+        assertTrue(output().contains("musí byť väčšia ako 0"));
+        assertTrue(output().contains("nesmie byť záporná"));
     }
 
     @Test
@@ -61,7 +61,7 @@ class ReceiptInputTest {
     @Test
     void paymentMustCoverTotal() throws IOException {
         assertEquals(dec("100"), input("10\nabc\n100\n").readPayment(dec("32.40")));
-        assertTrue(output().contains("nesmí být menší"));
+        assertTrue(output().contains("nesmie byť menšia"));
         assertTrue(output().contains("Neplatné číslo"));
     }
 }

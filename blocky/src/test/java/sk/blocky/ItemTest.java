@@ -1,6 +1,6 @@
-package cz.blocky;
+package sk.blocky;
 
-import static cz.blocky.TestData.dec;
+import static sk.blocky.TestData.dec;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -15,7 +15,7 @@ class ItemTest {
 
     @Test
     void totalIsRoundedToHundredths() {
-        assertEquals(dec("16.62"), new Item("Sýr", dec("0.333"), dec("49.90")).total());
+        assertEquals(dec("16.62"), new Item("Syr", dec("0.333"), dec("49.90")).total());
         assertEquals(dec("0.03"), new Item("Bonbon", dec("0.5"), dec("0.05")).total());
     }
 
@@ -26,7 +26,7 @@ class ItemTest {
 
     @Test
     void nameIsTrimmed() {
-        assertEquals("Mléko", new Item("  Mléko ", dec("1"), dec("20")).name());
+        assertEquals("Mlieko", new Item("  Mlieko ", dec("1"), dec("20")).name());
     }
 
     @Test

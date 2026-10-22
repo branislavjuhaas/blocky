@@ -1,6 +1,6 @@
-package cz.blocky;
+package sk.blocky;
 
-import static cz.blocky.TestData.dec;
+import static sk.blocky.TestData.dec;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -16,7 +16,7 @@ class ReceiptTest {
 
     private final List<Item> items = List.of(
             new Item("Rohlík", dec("3"), dec("2.50")),
-            new Item("Mléko", dec("1"), dec("24.90")));
+            new Item("Mlieko", dec("1"), dec("24.90")));
 
     @Test
     void computesTotalAndChange() {
@@ -34,8 +34,8 @@ class ReceiptTest {
 
     @Test
     void computesVatIncludedInPrice() {
-        Receipt r = new Receipt(TestData.store(), List.of(new Item("A", dec("1"), dec("121"))), dec("121"), TIME);
-        assertEquals(dec("21.00"), r.vat());
+        Receipt r = new Receipt(TestData.store(), List.of(new Item("A", dec("1"), dec("123"))), dec("123"), TIME);
+        assertEquals(dec("23.00"), r.vat());
         assertEquals(dec("100.00"), r.totalWithoutVat());
     }
 

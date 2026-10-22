@@ -1,4 +1,4 @@
-package cz.blocky;
+package sk.blocky;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,10 +15,10 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 /**
- * Vstupní bod programu Blocky.
+ * Vstupný bod programu Blocky.
  *
  * <pre>
- * java -jar blocky-1.0.0.jar [cesta/ke/store.json]
+ * java -jar blocky.jar [cesta/k/store.json]
  * </pre>
  */
 public final class Main {
@@ -45,7 +45,7 @@ public final class Main {
             return 0;
         }
         if (args.length > 1) {
-            err.println("Příliš mnoho argumentů. Použijte --help.");
+            err.println("Priveľa argumentov. Použite --help.");
             return 2;
         }
 
@@ -57,7 +57,7 @@ public final class Main {
             return 1;
         }
 
-        out.println(app + " – tisk účtenek");
+        out.println(app + " – tlač účteniek");
         out.println();
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(stdin, stdinCharset()));
@@ -65,7 +65,7 @@ public final class Main {
         try {
             List<Item> items = input.readItems();
             if (items.isEmpty()) {
-                out.println("Nebyla zadána žádná položka, účtenka se nevytiskne.");
+                out.println("Nebola zadaná žiadna položka, účtenka sa nevytlačí.");
                 return 0;
             }
             BigDecimal total = items.stream().map(Item::total).reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -80,10 +80,10 @@ public final class Main {
             out.println();
 
             Path file = new ReceiptWriter(workDir.resolve(store.outputDir())).write(receipt.number(), text);
-            out.println("Účtenka byla uložena do souboru: " + file);
+            out.println("Účtenka bola uložená do súboru: " + file);
             return 0;
         } catch (IOException e) {
-            err.println("Chyba při práci se soubory: " + e.getMessage());
+            err.println("Chyba pri práci so súbormi: " + e.getMessage());
             return 1;
         }
     }
@@ -110,10 +110,10 @@ public final class Main {
 
     private static void printHelp(AppInfo app, PrintStream out) {
         out.println(app);
-        out.println("Použití: java -jar blocky.jar [konfigurace.json]");
+        out.println("Použitie: java -jar blocky.jar [konfiguracia.json]");
         out.println();
-        out.println("  Bez argumentu se použije ./store.json, případně výchozí konfigurace v JAR.");
-        out.println("  -v, --version   vypíše verzi");
-        out.println("  -h, --help      vypíše tuto nápovědu");
+        out.println("  Bez argumentu sa použije ./store.json, prípadne predvolená konfigurácia v JAR.");
+        out.println("  -v, --version   vypíše verziu");
+        out.println("  -h, --help      vypíše túto nápovedu");
     }
 }

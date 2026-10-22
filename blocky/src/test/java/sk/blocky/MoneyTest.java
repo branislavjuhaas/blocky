@@ -1,6 +1,6 @@
-package cz.blocky;
+package sk.blocky;
 
-import static cz.blocky.TestData.dec;
+import static sk.blocky.TestData.dec;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -39,7 +39,7 @@ class MoneyTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"", "   ", "abc", "1,2,3", "1e5", "12 Kč", "NaN", "-"})
+    @ValueSource(strings = {"", "   ", "abc", "1,2,3", "1e5", "12 €", "NaN", "-"})
     void rejectsInvalidNumbers(String input) {
         assertThrows(NumberFormatException.class, () -> Money.parse(input));
     }

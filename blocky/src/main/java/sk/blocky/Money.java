@@ -1,4 +1,4 @@
-package cz.blocky;
+package sk.blocky;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -6,14 +6,14 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
 /**
- * Převody mezi čísly a textem v českém formátu (desetinná čárka).
+ * Prevody medzi číslami a textom v slovenskom formáte (desatinná čiarka).
  */
 public final class Money {
 
     private Money() {
     }
 
-    /** Naformátuje částku na dvě desetinná místa, např. 1 234,50. */
+    /** Naformátuje sumu na dve desatinné miesta, napr. 1 234,50. */
     public static String format(BigDecimal amount) {
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
         symbols.setDecimalSeparator(',');
@@ -23,15 +23,15 @@ public final class Money {
         return df.format(amount.setScale(2, RoundingMode.HALF_UP));
     }
 
-    /** Naformátuje množství bez zbytečných nul, např. 2 nebo 0,5. */
+    /** Naformátuje množstvo bez zbytočných núl, napr. 2 alebo 0,5. */
     public static String formatQuantity(BigDecimal quantity) {
         return quantity.stripTrailingZeros().toPlainString().replace('.', ',');
     }
 
     /**
-     * Načte číslo zadané uživatelem. Přijímá desetinnou čárku i tečku a mezery mezi tisíci.
+     * Načíta číslo zadané používateľom. Prijíma desatinnú čiarku aj bodku a medzery medzi tisícami.
      *
-     * @throws NumberFormatException pokud text není číslo
+     * @throws NumberFormatException ak text nie je číslo
      */
     public static BigDecimal parse(String text) {
         if (text == null) {
